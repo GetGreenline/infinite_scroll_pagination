@@ -118,6 +118,17 @@ class PagingController<PageKeyType, ItemType>
     error = null;
   }
 
+  /// Replaces itemList with [newList] keeping all the existing pagination
+  /// state and notifying listeners
+  void replaceList(List<ItemType>? newList){
+    value = PagingState<PageKeyType, ItemType>(
+      error: value.error,
+      itemList: newList,
+      nextPageKey: value.nextPageKey,
+    );
+    notifyStatusListeners(value.status);
+  }
+
   /// Resets [value] to its initial state.
   void refresh() {
     value = PagingState<PageKeyType, ItemType>(
